@@ -37,12 +37,12 @@
   <header>
     <p class="eyebrow">eejsoftflux</p>
     <h1>Word Match: Tile Puzzle – Privacy Policy</h1>
-    <p class="meta"><strong>Effective date:</strong> <time datetime="2026-11-21">November 21, 2026</time><br>
+    <p class="meta"><strong>Effective date:</strong> <time datetime="2026-11-28">November 28, 2026</time><br>
       <strong>Platform:</strong> Android / Google Play<br>
       <strong>Package:</strong> <code>com.eejsoftflux.wordmatch</code></p>
   </header>
 
-  <p>This Privacy Policy explains how information is handled in <strong>Word Match: Tile Puzzle</strong> (the “App”), developed by <strong>eejsoftflux</strong> (“we” or “us”). It covers local game information and the third-party services used for advertising, consent, purchases, and Google Play reviews.</p>
+  <p>This Privacy Policy explains how information is handled in <strong>Word Match: Tile Puzzle</strong> (the “App”), developed by <strong>eejsoftflux</strong> (“we” or “us”). The App is intended for ages 6 and older, including children, teens, and adults. It covers local game information and the third-party services used for advertising, consent, purchases, and Google Play reviews.</p>
   <div class="summary">
     Your game progress is stored on your device, and the App has no developer-operated account login or cloud-save service. However, Google and Unity services can collect and process information when they operate. Local game storage does not mean that the App collects or transmits no data.
   </div>
@@ -58,6 +58,7 @@
     <p>The App processes information needed to run the game, save your choices, deliver rewards, and recognize purchases. This includes:</p>
     <ul>
       <li>Current and completed levels, best score, daily play and completion history, and tutorial or review-prompt status.</li>
+      <li>Your selected age band (6–12, 13–17, or 18 and older), stored locally to apply age-related protection settings.</li>
       <li>Coin balance, Undo and Shuffle item counts, sound and grayscale preferences, and the ad-removal entitlement.</li>
       <li>Purchase receipts and transaction information supplied through Google Play and Unity IAP. A hash of each fulfilled purchase token is kept locally to help prevent duplicate rewards.</li>
     </ul>
@@ -65,37 +66,44 @@
   </section>
 
   <section id="ads">
-    <h2>2. Google AdMob rewarded advertising</h2>
-    <p>The App integrates the Google Mobile Ads Unity Plugin (version 11.7.0) for optional rewarded ads. You can choose “Watch Ad” to earn 50 coins when the SDK reports that the reward requirements have been met. Closing an ad alone does not earn the reward. Voluntary rewarded ads remain available even if you own Remove Ads.</p>
-    <p>After the consent checks permit advertising, the App may preload an ad before you press Watch Ad. Choosing not to watch therefore does not by itself prevent all ad-related network activity. The current implementation uses Google's Android test ad unit; this is not a promise that SDK communications are disabled.</p>
+    <h2>2. Google AdMob advertising</h2>
+    <p>The App uses Google Mobile Ads for banners at the bottom of gameplay, interstitial ads after Next is selected following levels 6, 9, 12 and subsequent three-level intervals, and optional rewarded ads. Watch Ad grants 50 coins only when the SDK reports completion of the reward requirements. Closing an ad alone does not earn a reward.</p>
+    <p>Remove Ads removes banner and interstitial advertising; optional rewarded ads remain available. The integration supports live advertising and is not limited to test ads. Ads may be preloaded after age and consent checks, before you select Watch Ad. Remove Ads and choosing not to watch a rewarded ad therefore do not stop all advertising SDK processing.</p>
+    <p>Before the App initializes Mobile Ads or requests ads, it applies the following <code>AgeRestrictedTreatment</code> setting based on your selection:</p>
+    <ul>
+      <li>Ages 6–12: <code>Child</code>, requesting Google's child protections, including restrictions on personalized advertising.</li>
+      <li>Ages 13–17: <code>Teen</code>, requesting Google's teen protections.</li>
+      <li>Ages 18 and older: <code>Unspecified</code>, with applicable privacy choices handled through UMP. This value does not itself mean consent has been granted.</li>
+    </ul>
+    <p>All age bands use <code>MaxAdContentRating.G</code> to limit requested ad content to Google's general-audience rating. Age settings and this rating are ad-serving controls, not a guarantee that SDKs process no data. See <a href="https://developers.google.com/admob/unity/targeting">Google's age-treatment and ad-content settings</a>.</p>
     <p>Google's Mobile Ads disclosure identifies data such as IP addresses (which can indicate approximate location), app and ad interactions, diagnostic and performance information, and device or account identifiers, including the Android advertising ID and app set ID where available. Google processes these data for ad delivery, measurement, analytics, and fraud prevention. Processing depends on device settings, consent, and the ad service's configuration.</p>
-    <p>The game code does not itself read the advertising ID or request precise location. Advertising SDKs can process identifiers and device information independently of that game code. See <a href="https://developers.google.com/admob/unity/privacy/play-data-disclosure">Google Mobile Ads data disclosure</a> and <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that use its services</a>.</p>
+    <p>The game code does not itself read the advertising ID or request precise location. The Android build process removes the AD_ID permission and the AdServices advertising ID, attribution, and topics permissions. These restrictions do not mean that all identifiers, IP addresses, or SDK communications are blocked; behavior also depends on the Android version and installed build. Advertising SDKs can process identifiers and device information independently of that game code. See <a href="https://developers.google.com/admob/unity/privacy/play-data-disclosure">Google Mobile Ads data disclosure</a> and <a href="https://policies.google.com/technologies/partner-sites">how Google uses information from apps that use its services</a>.</p>
   </section>
 
   <section id="consent">
     <h2>3. Privacy consent and Privacy options</h2>
-    <p>The App uses Google's User Messaging Platform (UMP) to update consent information and show a consent message when required. Advertising requests are allowed only when UMP reports that ads may be requested. Google may use stored consent choices and information needed to determine and apply the appropriate privacy message.</p>
+    <p>The App waits for an age-band selection before starting its UMP flow, Mobile Ads initialization, ad requests, and Unity IAP initialization. Google's User Messaging Platform (UMP) updates consent information after that selection. For both ages 6–12 and 13–17, the App sets UMP's <code>TagForUnderAgeOfConsent</code> to <code>true</code>, conservatively suppressing consent solicitation for all under-18 users rather than assuming they meet their country's consent age. For adults it is <code>false</code>, and UMP presents applicable regional consent messages when required. This UMP flag is separate from Mobile Ads' Child or Teen setting. Advertising requests are allowed only when UMP reports that ads may be requested. Google may use stored consent choices and information needed to determine and apply the appropriate privacy message.</p>
     <p>When UMP requires a privacy-options entry point, a <strong>Privacy options</strong> button appears in the App's <strong>Settings</strong> panel. It opens Google's form so that you can review or change available choices. This button may not appear in every region or consent state.</p>
-    <p>These controls apply to Google's advertising consent flow. They are not a universal opt-out from Google Play purchase processing or Unity IAP service data. See <a href="https://developers.google.com/admob/unity/privacy">Google's UMP guidance</a>.</p>
+    <p>These controls apply to Google's advertising consent flow. They are not a universal opt-out from Google Play purchase processing or Unity IAP service data. See <a href="https://developers.google.com/admob/unity/privacy">Google's UMP guidance</a>. Age selection and UMP are not identity verification or verifiable parental consent, and do not replace any parental authorization required by applicable law.</p>
   </section>
 
   <section id="purchases">
     <h2>4. Google Play purchases and Unity IAP</h2>
     <p>The App uses Unity In-App Purchasing (IAP) 5.5.1 with Google Play for coin packages and Remove Ads. Google Play handles checkout and your payment method. <strong>eejsoftflux does not collect or store your payment-card number, bank-account number, or Google account password in the App.</strong></p>
     <p>The App receives purchase status, product identifiers, receipts, and transaction tokens to validate purchases, deliver content, avoid duplicate grants, and restore eligible purchases. Receipt-signature checks and the App's fulfillment record are local; they do not eliminate Google Play or Unity SDK communications.</p>
-    <p>Unity IAP 5.4 and later processes purchase and transaction details, device/application and session identifiers, technical information such as device model, operating system and locale, and country inferred from requests' IP addresses. These support the IAP service, transaction deduplication, and revenue reporting. Unity's SDK can transmit this information to Unity even without a separately integrated Unity Analytics SDK. See <a href="https://docs.unity.com/en-us/iap/privacy-and-consent/overview">Unity IAP privacy information</a>.</p>
-    <p>Remove Ads can be restored from eligible Google Play purchases using the same Play account. Already consumed coin purchases and local coin balances are not guaranteed to be recoverable after data deletion or reinstallation.</p>
+    <p>Unity IAP 5.4 and later can process purchase and transaction details, device/application and session identifiers, technical information such as device model, operating system and locale, and country inferred from requests' IP addresses. These support the IAP service, transaction deduplication, and revenue reporting. Unity's SDK can transmit this information to Unity even without a separately integrated Unity Analytics SDK. See <a href="https://docs.unity.com/en-us/iap/privacy-and-consent/overview">Unity IAP privacy information</a>.</p>
+    <p>Product prices and currency are supplied by Google Play, not inferred from the selected age band. Remove Ads can be restored from eligible Google Play purchases using the same Play account. Already consumed coin purchases and local coin balances are not guaranteed to be recoverable after data deletion or reinstallation.</p>
   </section>
 
   <section id="local-storage">
     <h2>5. On-device storage</h2>
-    <p>Progress, item counts, preferences, and related game flags are stored using Unity PlayerPrefs. The coin balance, ad-removal status, and fulfilled purchase-token hashes are also stored in an app-local purchase record; PlayerPrefs keeps a compatibility copy of the coin balance.</p>
+    <p>The age band, progress, item counts, preferences, and related game flags are stored using Unity PlayerPrefs. The coin balance, ad-removal status, and fulfilled purchase-token hashes are also stored in an app-local purchase record; PlayerPrefs keeps a compatibility copy of the coin balance.</p>
     <p>This data is used to resume play, remember settings, manage inventory, and prevent repeated purchase fulfillment. It is not a developer-managed online account. Local storage is not a guarantee against device access, modification, loss, or backup restoration.</p>
   </section>
 
   <section id="services">
     <h2>6. Third-party services and information sharing</h2>
-    <p>The current integration includes Google Mobile Ads/AdMob, Google UMP, Google Play billing, Unity IAP, and Google Play In-App Review. No separate Firebase, Crashlytics, or custom gameplay-analytics integration is present in the reviewed game code. Advertising and purchasing services can still perform their own measurement and diagnostics.</p>
+    <p>The current integration includes Google Mobile Ads/AdMob, Google UMP, Google Play billing, Unity IAP, and Google Play In-App Review. No separate Firebase, Crashlytics, or custom gameplay-analytics integration is present in the reviewed game code. Unity engine diagnostics, cloud crash reporting, and automatic Unity Analytics initialization are disabled in the project settings. Before scene loading, the App sets Unity AdsIntent and AnalyticsIntent to Denied for all ages. These settings do not disable essential Unity IAP transaction processing or the independent data handling of Google SDKs. Advertising and purchasing services can still perform their own measurement and diagnostics.</p>
     <p>If you choose to submit a Google Play rating or review, Google handles your submission and its publication. The App records that it requested the review flow; the review API does not tell the game which rating or text you submitted.</p>
     <p>These providers handle information under their applicable policies and may process it outside your country. For details and provider-specific privacy choices, see:</p>
     <ul>
@@ -116,14 +124,18 @@
 
   <section id="children">
     <h2>8. Children and age-related privacy</h2>
-    <p>Word Match: Tile Puzzle is intended for a general audience and is not directed to children. The App does not ask for a date of birth and does not currently include an age-verification or parental-consent mechanism. This policy does not represent the App as a child-directed service.</p>
-    <p>If you are a parent or guardian and believe a child has provided personal information in connection with the App, please contact us so that we can review the concern and help identify the appropriate deletion or provider-contact process. Information handled by Google or Unity is also subject to those providers' policies and applicable age-related requirements.</p>
+    <p>The App is intended for ages 6 and older, including children, teens, and adults; it is not intended for children under 6. On first use, a neutral screen asks you to choose 6–12 years, 13–17 years, or 18 years or older, without a preselected answer or rewards for choosing an older group. It does not ask for a name or date of birth. The age band is saved in local PlayerPrefs and reused on later launches. The corresponding age-treatment signals are provided to advertising and consent SDKs; local storage does not mean those signals remain only on the device.</p>
+    <p>Settings → Age group allows changes only toward a younger, more protective band: adults may select either younger band, teens may select ages 6–12, and children cannot select an older band. After a change, advertising is stopped for the session and the App must restart to apply the new setting. The App does not automatically advance the saved age band as a user gets older. Contact us if you need help with an incorrect selection; the App does not offer an immediate upgrade to a less protective band.</p>
+    <p>Parents or guardians may contact <strong class="email">eejsoftflux@gmail.com</strong> to ask about a child's information, request access or deletion, or report a privacy concern. Please identify the App and describe the request without sending a child's full birth date, identity documents, payment-card details, or passwords. We may ask for limited information needed to verify authority and locate relevant records.</p>
+    <p>For local data, a parent can use Android's Clear storage/Clear data controls as described above; this also removes the saved age choice and can erase progress and consumables. For provider-held data, we will help identify the appropriate process. Where Unity acts as our processor, requests must be handled through us; where a provider acts independently, its own privacy-request process applies. We cannot promise to erase records that a provider must retain for transactions or legal obligations. The age screen is not a parental-consent system.</p>
   </section>
 
   <section id="choices">
     <h2>9. Your choices</h2>
     <ul>
       <li>Choose whether to watch rewarded ads or make an in-app purchase.</li>
+      <li>Open Settings → Privacy Policy to read this page in your browser. The external website and browser may process connection information under their own policies.</li>
+      <li>Use Settings → Age group to select a more protective age band.</li>
       <li>Use Settings → Privacy options when available to review Google's consent choices.</li>
       <li>Use Android's advertising privacy controls to reset or delete the advertising ID where supported. This does not necessarily stop all advertising or other SDK processing.</li>
       <li>Clear local app storage to remove game data from the current installation, understanding that progress and consumable balances may be lost.</li>
